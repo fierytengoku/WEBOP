@@ -550,14 +550,17 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // Moves the sliding background pizzas based on scroll position
 
 // Optimization: Calculated phase for all 5 variances and populated in an array outside of original for-loop - drops pizza scroll FPS to ~.9ms
+// First for loop is ran once to populate phases, second is used to populate style.left. Added a line inbetween the two loops to better show their separation.
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
   var phase_holder = [];
   var items = document.querySelectorAll('.mover');
+
   for (var l = 0; l < items.length; l++) {
     phase_holder[l] = Math.sin((document.body.scrollTop / 1250) + (l % 5));
   }
+
   for (var i = 0; i < items.length; i++) {
     items[i].style.left = items[i].basicLeft + 100 * phase_holder[i] + 'px';
   }
